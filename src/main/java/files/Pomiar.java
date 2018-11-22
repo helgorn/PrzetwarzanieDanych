@@ -5,9 +5,7 @@ import java.time.LocalDate;
 public class Pomiar {
     private LocalDate date;
     private WeatherResults weatherResults;
-    //private int max;
-    //private int srednia;
-    //private int min;
+
 
     public Pomiar(LocalDate date, WeatherResults weatherResults) {
         this.date = date;

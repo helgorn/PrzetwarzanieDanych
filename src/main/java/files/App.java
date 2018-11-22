@@ -19,7 +19,7 @@ public class App {
 //        while(fileContents.hasNext()){
 //            System.out.println(fileContents.nextLine());
 //        }
-        File file = new File("C:\\Users\\Michal\\IdeaProjects\\KursProgramowanie1\\PrzetwarzanieDanych\\src\\main\\resources\\users.txt");
+        File file = new File("src\\main\\resources\\users.txt");
         List<User> listM = new ArrayList<>();
         List<User> listK = new ArrayList<>();
         LineIterator fileContents = FileUtils.lineIterator(file, "UTF-8");
@@ -36,7 +36,7 @@ public class App {
         System.out.println(listM);
 
 
-        File file2 = new File("C:\\Users\\Michal\\IdeaProjects\\KursProgramowanie1\\PrzetwarzanieDanych\\src\\main\\resources\\books.csv");
+        File file2 = new File("src\\main\\resources\\books.csv");
         List<Book> bookList = new ArrayList<>();
         LineIterator fileContents2 = FileUtils.lineIterator(file2, "UTF-8");
         while (fileContents2.hasNext()) {
@@ -72,7 +72,7 @@ public class App {
         FileUtils.writeLines(file3, textLines);
 
 
-        File filePogoda = new File("C:\\Users\\Michal\\IdeaProjects\\KursProgramowanie1\\PrzetwarzanieDanych\\src\\main\\resources\\weather-data.csv");
+        File filePogoda = new File("src\\main\\resources\\weather-data.csv");
 
         PomiarService pomiarService = new PomiarService();
         pomiarService.addFile(filePogoda);
@@ -92,13 +92,13 @@ public class App {
         }
         System.out.println();
 
-        File fileUsers = new File("C:\\Users\\Michal\\IdeaProjects\\KursProgramowanie1\\PrzetwarzanieDanych\\src\\main\\resources\\userActions.csv");
+        File fileUsers = new File("src\\main\\resources\\userActions.csv");
 
         UserService userService = new UserService();
         userService.addFile(fileUsers);
         System.out.println(userService);
 
-        File fileFlights = new File("C:\\Users\\Michal\\IdeaProjects\\KursProgramowanie1\\PrzetwarzanieDanych\\src\\main\\resources\\flights.csv");
+        File fileFlights = new File("src\\main\\resources\\flights.csv");
 
         FlightsService flightsService = new FlightsService();
         flightsService.addFile(fileFlights);

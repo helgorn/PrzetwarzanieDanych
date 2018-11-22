@@ -46,7 +46,6 @@ public class UserService {
         }
     }
     public void removeUser(String login){
-        //UserAction userAction = new UserAction("","","","","");
         for(int i=0;i<actions.size();i++){
             if(actions.get(i).getLogin().equals(login)){
                 actions.remove(i);
