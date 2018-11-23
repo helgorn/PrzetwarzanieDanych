@@ -13,7 +13,7 @@ public class Book implements Comparable<Book> {
     private int sequenceId;
     private String genre;
 
-    public Book(String id, String cat, String name, BigDecimal price, Boolean inStock, String author, String series, int sequenceId, String genre) {
+    public Book(String name, BigDecimal price, Boolean inStock, String author) {
         this.id = id;
         this.cat = cat;
         this.name = name;

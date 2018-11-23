@@ -12,8 +12,10 @@ import java.util.List;
 public class FlightsService {
 
     private List<Flight> flightList = new ArrayList<>();
+    private File file;
 
-    public void addFile(File file) throws IOException {
+    public FlightsService(File file) throws IOException {
+        this.file = file;
         LineIterator fileContents = FileUtils.lineIterator(file, "UTF-8");
         while (fileContents.hasNext()) {
             String[] line = fileContents.nextLine().split(",");
@@ -23,6 +25,7 @@ public class FlightsService {
             }
         }
     }
+
 
     public int allPassengers() {
         int suma = 0;
@@ -55,30 +58,31 @@ public class FlightsService {
         int[] tab = new int[12];
 
         for (Flight flight : flightList) {
-            if (flight.getMonth().equals("January")) {
-                tab[0] += flight.getPassengers();
-            } else if (flight.getMonth().equals("February")) {
-                tab[1] += flight.getPassengers();
-            } else if (flight.getMonth().equals("March")) {
-                tab[2] += flight.getPassengers();
-            } else if (flight.getMonth().equals("April")) {
-                tab[3] += flight.getPassengers();
-            } else if (flight.getMonth().equals("May")) {
-                tab[4] += flight.getPassengers();
-            } else if (flight.getMonth().equals("June")) {
-                tab[5] += flight.getPassengers();
-            } else if (flight.getMonth().equals("July")) {
-                tab[6] += flight.getPassengers();
-            } else if (flight.getMonth().equals("September")) {
-                tab[7] += flight.getPassengers();
-            } else if (flight.getMonth().equals("August")) {
-                tab[8] += flight.getPassengers();
-            } else if (flight.getMonth().equals("October")) {
-                tab[9] += flight.getPassengers();
-            } else if (flight.getMonth().equals("November")) {
-                tab[10] += flight.getPassengers();
-            } else if (flight.getMonth().equals("December")) {
-                tab[11] += flight.getPassengers();
+            switch (flight.getMonth()) {
+                case "January":
+                    tab[0] += flight.getPassengers();
+                case "February":
+                    tab[1] += flight.getPassengers();
+                case "March":
+                    tab[2] += flight.getPassengers();
+                case "April":
+                    tab[3] += flight.getPassengers();
+                case "May":
+                    tab[4] += flight.getPassengers();
+                case "June":
+                    tab[5] += flight.getPassengers();
+                case "July":
+                    tab[6] += flight.getPassengers();
+                case "September":
+                    tab[7] += flight.getPassengers();
+                case "August":
+                    tab[8] += flight.getPassengers();
+                case "October":
+                    tab[9] += flight.getPassengers();
+                case "November":
+                    tab[10] += flight.getPassengers();
+                case "December":
+                    tab[11] += flight.getPassengers();
             }
         }
         return tab;
@@ -136,21 +140,64 @@ public class FlightsService {
         return minMax;
     }
 
-    public float[] procenty(int[] lata){
+    public float[] procenty(int[] lata) {
         float poprzedniRok = 0;
         float tenRok;
         float[] procenty = new float[11];
-        int i=0;
+        int i = 0;
         System.out.print("Zmiany procentowe: ");
         for (int procent : lata) {
             tenRok = procent;
             if (poprzedniRok != 0) {
-                procenty[i]=(tenRok * 100 / poprzedniRok) - 100;
+                procenty[i] = (tenRok * 100 / poprzedniRok) - 100;
                 i++;
             }
             poprzedniRok = procent;
         }
 
         return procenty;
+    }
+    public String whichMonth(int index){
+        String text="";
+        switch (index) {
+            case 0:
+                text = "January";
+                break;
+            case 1:
+                text = "February";
+                break;
+            case 2:
+                text = "March";
+                break;
+            case 3:
+                text = "April";
+                break;
+            case 4:
+                text = "May";
+                break;
+            case 5:
+                text = "June";
+                break;
+            case 6:
+                text = "July";
+                break;
+            case 7:
+                text = "September";
+                break;
+            case 8:
+                text = "August";
+                break;
+            case 9:
+                text = "October";
+                break;
+            case 10:
+                text = "November";
+                break;
+            case 11:
+                text = "December";
+                break;
+        }
+
+        return text;
     }
 }

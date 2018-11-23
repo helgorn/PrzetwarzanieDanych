@@ -4,7 +4,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,13 +11,7 @@ import java.util.*;
 
 public class App {
     public static void main(String[] args) throws IOException {
-        //System.out.println( "Hello World!" );
 
-//        File file = new File("C:\\Users\\Michal\\IdeaProjects\\KursProgramowanie1\\PrzetwarzanieDanych\\src\\main\\resources\\simpleExample.txt");
-//        LineIterator fileContents= FileUtils.lineIterator(file, "UTF-8");
-//        while(fileContents.hasNext()){
-//            System.out.println(fileContents.nextLine());
-//        }
         File file = new File("src\\main\\resources\\users.txt");
         List<User> listM = new ArrayList<>();
         List<User> listK = new ArrayList<>();
@@ -42,23 +35,11 @@ public class App {
         while (fileContents2.hasNext()) {
             String[] line = fileContents2.nextLine().split(",");
             if (!(line[0].equals("id"))) {
-                bookList.add(new Book(line[0], line[1], line[2], BigDecimal.valueOf(Double.valueOf(line[3])), Boolean.valueOf(line[4]), line[5], line[6], Integer.valueOf(line[7]), line[8]));
+                bookList.add(new Book( line[2], BigDecimal.valueOf(Double.valueOf(line[3])), Boolean.valueOf(line[4]), line[5]));
             }
         }
 
         Collections.sort(bookList);
-//        for (int i = 0; i < (bookList.size() - 1); i++) {
-//            for (int j = 0; j < (bookList.size() - 1); j++) {
-//                if (bookList.get(i).getPrice() < bookList.get(i + 1).getPrice()) {
-//                    Book tmp = bookList.get(i);
-//                    bookList.remove(i);
-//                    bookList.add(i, bookList.get(i + 1));
-//                    bookList.remove(i + 1);
-//                    bookList.add(i + 1, tmp);
-//                }
-//            }
-//        }
-
 
         System.out.println(bookList);
         File file3 = new File("D:\\example.txt");
@@ -100,8 +81,8 @@ public class App {
 
         File fileFlights = new File("src\\main\\resources\\flights.csv");
 
-        FlightsService flightsService = new FlightsService();
-        flightsService.addFile(fileFlights);
+        FlightsService flightsService = new FlightsService(fileFlights);
+
         System.out.println(flightsService.allPassengers());
         int[] passengersPerYear = flightsService.podzialNaLata();
         int currentYear = 1949;
@@ -114,87 +95,14 @@ public class App {
         for (int wart : passengersPerMonth) {
             System.out.print(wart + ", ");
         }
-        String minMonthName = "";
-        String maxMonthName = "";
+        String minMonthName;
+        String maxMonthName;
         int[] minMaxMonth = flightsService.minMaxMonth();
         int[] minMaxYear = flightsService.minMaxYear();
 
-        switch (minMaxMonth[0]) {
-            case 0:
-                minMonthName = "January";
-                break;
-            case 1:
-                minMonthName = "February";
-                break;
-            case 2:
-                minMonthName = "March";
-                break;
-            case 3:
-                minMonthName = "April";
-                break;
-            case 4:
-                minMonthName = "May";
-                break;
-            case 5:
-                minMonthName = "June";
-                break;
-            case 6:
-                minMonthName = "July";
-                break;
-            case 7:
-                minMonthName = "September";
-                break;
-            case 8:
-                minMonthName = "August";
-                break;
-            case 9:
-                minMonthName = "October";
-                break;
-            case 10:
-                minMonthName = "November";
-                break;
-            case 11:
-                minMonthName = "December";
-                break;
-        }
-        switch (minMaxMonth[2]) {
-            case 0:
-                maxMonthName = "January";
-                break;
-            case 1:
-                maxMonthName = "February";
-                break;
-            case 2:
-                maxMonthName = "March";
-                break;
-            case 3:
-                maxMonthName = "April";
-                break;
-            case 4:
-                maxMonthName = "May";
-                break;
-            case 5:
-                maxMonthName = "June";
-                break;
-            case 6:
-                maxMonthName = "July";
-                break;
-            case 7:
-                maxMonthName = "September";
-                break;
-            case 8:
-                maxMonthName = "August";
-                break;
-            case 9:
-                maxMonthName = "October";
-                break;
-            case 10:
-                maxMonthName = "November";
-                break;
-            case 11:
-                maxMonthName = "December";
-                break;
-        }
+        minMonthName = flightsService.whichMonth(minMaxMonth[0]);
+        maxMonthName = flightsService.whichMonth(minMaxMonth[1]);
+
         System.out.println();
         System.out.println("Maksymalna i minimalna liczba pasazerow (miesiace): " + maxMonthName + ": " + minMaxMonth[1] + minMonthName + ": " + minMaxMonth[3]);
         System.out.println("Maksymalna i minimalna liczba pasazerow (lata): " + minMaxYear[0] + ": " + minMaxYear[1] + ", " + minMaxYear[2] + ": " + minMaxYear[3]);

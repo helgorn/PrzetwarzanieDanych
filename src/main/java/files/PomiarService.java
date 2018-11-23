@@ -11,15 +11,14 @@ import java.util.List;
 
 public class PomiarService {
 
-    private List<Pomiar> pomiars = new ArrayList<>();
+    private List<Data> data = new ArrayList<>();
 
     public WeatherResults tempOfDay(LocalDate localDate) {
         WeatherResults weatherResults = null;
-        for (Pomiar pomiar : pomiars) {
-            if (pomiar.getDate().equals(localDate)) {
-                weatherResults = pomiar.getWeatherResults();
-                break;
-            }
+        for (Data data : this.data) {
+            if (data.getDate().equals(localDate)) {
+                return data.getWeatherResults();
+                }
         }
         return weatherResults;
     }
@@ -39,7 +38,7 @@ public class PomiarService {
                     int srednia = Integer.valueOf(line[2]);
                     int min = Integer.valueOf(line[3]);
                     WeatherResults weatherResults = new WeatherResults(min, srednia, max);
-                    pomiars.add(new Pomiar(data, weatherResults));
+                    this.data.add(new Data(data, weatherResults));
                 } catch (NumberFormatException e) {
                     continue;
                 }
@@ -52,18 +51,18 @@ public class PomiarService {
         int max = 0;
         int suma = 0;
         int i = 0;
-        for (Pomiar pomiar : pomiars) {
-            if (pomiar.getDate().isEqual(localDate) || (pomiar.getDate().isAfter(localDate) && pomiar.getDate().isBefore(localDate2)) || pomiar.getDate().isEqual(localDate2)) {
-                if (pomiar.getWeatherResults().getMax() > max) {
-                    max = pomiar.getWeatherResults().getMax();
+        for (Data data : this.data) {
+            if (data.getDate().isEqual(localDate) || (data.getDate().isAfter(localDate) && data.getDate().isBefore(localDate2)) || data.getDate().isEqual(localDate2)) {
+                if (data.getWeatherResults().getMax() > max) {
+                    max = data.getWeatherResults().getMax();
                 }
-                if (pomiar.getWeatherResults().getMin() < min) {
-                    min = pomiar.getWeatherResults().getMin();
+                if (data.getWeatherResults().getMin() < min) {
+                    min = data.getWeatherResults().getMin();
                 }
-                suma += pomiar.getWeatherResults().getSrednia();
+                suma += data.getWeatherResults().getSrednia();
                 i++;
             }
-            if (pomiar.getDate().isAfter(localDate2)) {
+            if (data.getDate().isAfter(localDate2)) {
                 break;
             }
         }
@@ -74,8 +73,8 @@ public class PomiarService {
 
     public int hotDays(int temp) {
         int i = 0;
-        for (Pomiar pomiar : pomiars) {
-            if (pomiar.getWeatherResults().getSrednia() >= temp) {
+        for (Data data : this.data) {
+            if (data.getWeatherResults().getSrednia() >= temp) {
                 i++;
             }
         }
@@ -83,34 +82,34 @@ public class PomiarService {
     }
 
     public int[] statistics() {
-        int hotYear = pomiars.get(0).getDate().getYear();
-        int coldYear = pomiars.get(0).getDate().getYear();
+        int hotYear = data.get(0).getDate().getYear();
+        int coldYear = data.get(0).getDate().getYear();
         int suma = 0;
         int sumaM = 0;
         int i = 0;
         int j = 0;
         int maxSrednia = 0;
-        int minSrednia = 200;
+        int minSrednia = data.get(0).getWeatherResults().getSrednia();
         int maxSredniaM = 0;
-        int hotYearMonth = pomiars.get(0).getDate().getYear();
-        int minSredniaM = 200;
-        int coldYearMonth = pomiars.get(0).getDate().getYear();
+        int hotYearMonth = data.get(0).getDate().getYear();
+        int minSredniaM = data.get(0).getWeatherResults().getSrednia();
+        int coldYearMonth = data.get(0).getDate().getYear();
         int maxSredniaD = 0;
-        int hotYearDay = pomiars.get(0).getDate().getYear();
-        int minSredniaD = 200;
-        int coldYearDay = pomiars.get(0).getDate().getYear();
+        int hotYearDay = data.get(0).getDate().getYear();
+        int minSredniaD = data.get(0).getWeatherResults().getSrednia();
+        int coldYearDay = data.get(0).getDate().getYear();
         int tymSrednia = 0;
         int tymSredniaM = 0;
-        int hotMonth = pomiars.get(0).getDate().getMonthValue();
-        int coldMonth = pomiars.get(0).getDate().getMonthValue();
-        int hotDay = pomiars.get(0).getDate().getMonthValue();
-        int coldDay = pomiars.get(0).getDate().getMonthValue();
-        int currentYear = pomiars.get(0).getDate().getYear();
-        int currentMonth = pomiars.get(0).getDate().getMonthValue();
+        int hotMonth = data.get(0).getDate().getMonthValue();
+        int coldMonth = data.get(0).getDate().getMonthValue();
+        int hotDay = data.get(0).getDate().getMonthValue();
+        int coldDay = data.get(0).getDate().getMonthValue();
+        int currentYear = data.get(0).getDate().getYear();
+        int currentMonth = data.get(0).getDate().getMonthValue();
 
-        for (Pomiar pomiar : pomiars) {
-            if (pomiar.getDate().getYear() == currentYear) {
-                suma += pomiar.getWeatherResults().getSrednia();
+        for (Data data : this.data) {
+            if (data.getDate().getYear() == currentYear) {
+                suma += data.getWeatherResults().getSrednia();
                 i++;
                 tymSrednia = suma / i;
             } else {
@@ -122,45 +121,47 @@ public class PomiarService {
                     minSrednia = tymSrednia;
                     coldYear = currentYear;
                 }
-                currentYear = pomiar.getDate().getYear();
+                currentYear = data.getDate().getYear();
                 suma=0;
                 i = 1;
 
             }
-            if (pomiar.getDate().getMonthValue() == currentMonth) {
-                sumaM += pomiar.getWeatherResults().getSrednia();
+            if (data.getDate().getMonthValue() == currentMonth) {
+                sumaM += data.getWeatherResults().getSrednia();
                 j++;
                 tymSredniaM = sumaM / j;
             } else {
                 if (tymSredniaM > maxSredniaM) {
                     maxSredniaM = tymSredniaM;
                     hotMonth = currentMonth;
-                    hotYearMonth = pomiar.getDate().getYear();
+                    hotYearMonth = data.getDate().getYear();
                 }
                 if (tymSredniaM < minSredniaM) {
                     minSredniaM = tymSredniaM;
                     coldMonth = currentMonth;
-                    coldYearMonth = pomiar.getDate().getYear();
+                    coldYearMonth = data.getDate().getYear();
                 }
-                currentMonth = pomiar.getDate().getMonthValue();
+                currentMonth = data.getDate().getMonthValue();
                 sumaM=0;
                 j = 1;
 
             }
-            if (pomiar.getWeatherResults().getSrednia() > maxSredniaD) {
-                hotDay = pomiar.getDate().getDayOfYear();
-                maxSredniaD = pomiar.getWeatherResults().getSrednia();
-                hotYearDay=pomiar.getDate().getYear();
+            if (data.getWeatherResults().getSrednia() > maxSredniaD) {
+                hotDay = data.getDate().getDayOfYear();
+                maxSredniaD = data.getWeatherResults().getSrednia();
+                hotYearDay= data.getDate().getYear();
             }
-            if (pomiar.getWeatherResults().getSrednia() < minSredniaD) {
-                coldDay = pomiar.getDate().getDayOfYear();
-                minSredniaD = pomiar.getWeatherResults().getSrednia();
-                coldYearDay=pomiar.getDate().getYear();
+            if (data.getWeatherResults().getSrednia() < minSredniaD) {
+                coldDay = data.getDate().getDayOfYear();
+                minSredniaD = data.getWeatherResults().getSrednia();
+                coldYearDay= data.getDate().getYear();
             }
         }
 
         int tab[] = {hotYear, coldYear, hotMonth, hotYearMonth, coldMonth, coldYearMonth, hotDay, hotYearDay, coldDay, coldYearDay};
         return tab;
     }
+
+
 
 }

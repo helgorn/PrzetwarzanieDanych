@@ -42,6 +42,7 @@ public class UserService {
                 }else if(!line[5].isEmpty()){
                     userAction.setRule(line[5]);
                 }
+                break;
             }
         }
     }
